@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
+using NumericLeapFrogConsole.Helpers;
 
 namespace NumericLeapFrogConsole.Extensions
 {
@@ -8,6 +9,9 @@ namespace NumericLeapFrogConsole.Extensions
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+            services.AddTransient<IConsoleHelper, ConsoleHelper>();
+            services.AddTransient<IPlayerInputHelper, PlayerInputHelper>();
+            
             services.AddTransient<IApplication, Application>();
 
             return services;
