@@ -1,11 +1,11 @@
 ﻿namespace NumericLeapFrogConsole
 {
-    internal interface IApplication
+    public interface IApplication
     {
         Task RunAsync();
     }
 
-    internal class Application : IApplication
+    public class Application : IApplication
     {
         public Task RunAsync()
         {
