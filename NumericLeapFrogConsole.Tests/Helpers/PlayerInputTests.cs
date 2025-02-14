@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-using Moq;
-using NumericLeapFrogConsole.Constants;
+﻿using NumericLeapFrogConsole.Constants;
 using NumericLeapFrogConsole.Helpers;
 
 namespace NumericLeapFrogConsole.Tests.Helpers
