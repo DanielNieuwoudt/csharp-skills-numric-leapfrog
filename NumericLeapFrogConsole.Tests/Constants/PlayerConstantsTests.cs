@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using NumericLeapFrogConsole.Constants;
+﻿using NumericLeapFrogConsole.Constants;
 
 namespace NumericLeapFrogConsole.Tests.Constants
 {

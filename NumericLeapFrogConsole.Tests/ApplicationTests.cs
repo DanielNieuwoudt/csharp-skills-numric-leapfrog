@@ -1,5 +1,3 @@
-using FluentAssertions;
-using Moq;
 using NumericLeapFrogConsole.Constants;
 using NumericLeapFrogConsole.Helpers;
 
