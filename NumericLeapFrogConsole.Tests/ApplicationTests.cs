@@ -8,13 +8,6 @@ namespace NumericLeapFrogConsole.Tests
         private readonly Mock<IConsoleHelper> _consoleHelperMock = new ();
         private readonly Mock<IPlayerInputHelper> _playerInputHelperMock = new ();
 
-        public ApplicationTests()
-        {
-            _playerInputHelperMock
-                .Setup(m => m.GetPlayerValue())
-                .Returns(-1);
-        }
-
         [Fact]
         public async Task Given_Application_When_RunAsync_Then_ClearsConsoleOnce()
         {

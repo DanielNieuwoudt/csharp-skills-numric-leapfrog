@@ -29,7 +29,7 @@ namespace NumericLeapfrog
                 .Services
                 .GetRequiredService<IApplication>();
 
-            await application.RunAsync();
+            await application.RunAsync(runOnce: false);
         }
     }
 }

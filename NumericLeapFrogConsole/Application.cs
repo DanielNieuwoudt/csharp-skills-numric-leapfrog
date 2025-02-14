@@ -5,7 +5,7 @@ namespace NumericLeapFrogConsole
 {
     public class Application(IConsoleHelper consoleHelper, IPlayerInputHelper playerInputHelper) : IApplication
     {
-        public Task RunAsync()
+        public Task RunAsync(bool runOnce = true)
         {
             consoleHelper.Clear();
 
@@ -14,6 +14,9 @@ namespace NumericLeapFrogConsole
             do
             {
                 playerValue = playerInputHelper.GetPlayerValue();
+
+                if (runOnce) break;
+
             } while (!playerValue.HasValue);
 
             switch (playerValue)

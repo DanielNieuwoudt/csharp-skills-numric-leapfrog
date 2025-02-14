@@ -2,5 +2,5 @@
 
 public interface IApplication
 {
-    Task RunAsync();
+    Task RunAsync(bool runOnce = true);
 }
