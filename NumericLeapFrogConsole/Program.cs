@@ -20,7 +20,6 @@ namespace NumericLeapfrog
                     config.AddEnvironmentVariables();
 
                 })
-                .ConfigureSerilog()
                 .ConfigureServices(services =>
                 {
                     services.AddApplication();
