@@ -1,8 +1,11 @@
 ﻿using NumericLeapFrogConsole.Constants;
+using NumericLeapFrogConsole.Enumerations;
 using NumericLeapFrogConsole.Helpers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NumericLeapFrogConsole.Tests.Helpers
 {
+    [ExcludeFromCodeCoverage(Justification = "Tests")]
     public class GuessHelperTests
     {
         [Theory]
@@ -22,6 +25,19 @@ namespace NumericLeapFrogConsole.Tests.Helpers
             guess
                 .Should()
                 .Be(guessHelper.Guesses.Sum());
+        }
+
+        [Theory]
+        [InlineData(50, 60, GuessOutcomes.TooHigh)]
+        [InlineData(50, 47, GuessOutcomes.IsClose)]
+        [InlineData(50, 25, GuessOutcomes.GuessAgain)]
+        public void Given_GuessHelper_When_GetOutcome_Then_ReturnsCorrectOutcome(int playerValue, int guess, GuessOutcomes expectedOutcome)
+        {
+            var guessHelper = new GuessHelper();
+            var outcome = guessHelper.GetOutcome(playerValue, guess);
+            outcome
+                .Should()
+                .Be(expectedOutcome);
         }
     }
 }

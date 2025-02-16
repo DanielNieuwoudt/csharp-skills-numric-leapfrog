@@ -1,4 +1,5 @@
 ﻿using NumericLeapFrogConsole.Constants;
+using NumericLeapFrogConsole.Enumerations;
 using NumericLeapFrogConsole.Helpers;
 
 namespace NumericLeapFrogConsole
@@ -31,25 +32,30 @@ namespace NumericLeapFrogConsole
 
             consoleHelper.WriteLine(GameConstants.StartMessage);
 
-            while (isGameMode)
+            var keepGuessing = true;
+
+            while (isGameMode && keepGuessing)
             {
                 var guess = guessHelper.Guess(GameConstants.MinimumValue, playerValue!.Value);
 
                 consoleHelper.WriteLine(string.Format(ComputerConstants.GuessMessage, guess));
 
-                if (guess >= playerValue)
-                {
-                    consoleHelper.WriteLine(string.Format(ComputerConstants.GuessTooHigh, guess));
-                    break;
-                }
+                var guessOutcome = guessHelper.GetOutcome(playerValue.Value, guess);
 
-                if (playerValue - guess <= 3)
+                switch (guessOutcome)
                 {
-                    consoleHelper.WriteLine(string.Format(ComputerConstants.GuessIsClose, guess));
-                    break;
+                    case GuessOutcomes.TooHigh:
+                        consoleHelper.WriteLine(string.Format(ComputerConstants.GuessTooHigh, guess));
+                        keepGuessing = false;
+                        break;
+                    case GuessOutcomes.IsClose:
+                        consoleHelper.WriteLine(string.Format(ComputerConstants.GuessIsClose, guess));
+                        keepGuessing = false;
+                        break;
+                    case GuessOutcomes.GuessAgain:
+                        consoleHelper.WriteLine(ComputerConstants.GuessAgain);
+                        break;
                 }
-
-                consoleHelper.WriteLine(ComputerConstants.GuessAgain);
             }
             
             consoleHelper.WriteLine(GameConstants.GameOverMessage);

@@ -1,8 +1,10 @@
 ﻿using NumericLeapFrogConsole.Constants;
 using NumericLeapFrogConsole.Helpers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NumericLeapFrogConsole.Tests.Helpers
 {
+    [ExcludeFromCodeCoverage(Justification = "Tests")]
     public class PlayerInputTests
     {
         private readonly Mock<IConsoleHelper> _consoleHelperMock = new();

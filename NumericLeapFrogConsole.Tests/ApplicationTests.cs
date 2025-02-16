@@ -1,8 +1,11 @@
 using NumericLeapFrogConsole.Constants;
+using NumericLeapFrogConsole.Enumerations;
 using NumericLeapFrogConsole.Helpers;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NumericLeapFrogConsole.Tests
 {
+    [ExcludeFromCodeCoverage(Justification = "Tests")]
     public class ApplicationTests
     {
         private readonly Mock<IConsoleHelper> _consoleHelperMock = new ();
@@ -61,22 +64,23 @@ namespace NumericLeapFrogConsole.Tests
         }
 
         [Theory]
-        [InlineData(50, 60, "high")]
-        [InlineData(50, 47, "close")]
-        public async Task Given_Application_When_RunAsync_Then_EndsGameWhenGuessToHigh(int playerValue, int guessedValue, string outcome)
+        [InlineData(50,  60, GuessOutcomes.TooHigh)]
+        [InlineData(50,  47, GuessOutcomes.IsClose)]
+        public async Task Given_Application_When_RunAsync_Then_EndsGameWhenGuessTooHighOrIsClose(int playerValue, int guessedValue, GuessOutcomes outcome)
         {
-            
             _playerInputHelperMock
                 .Setup(m => m.GetPlayerValue())
-                .Returns(50);
-
+                .Returns(playerValue);
+            
             _guessHelperMock
-                .SetupSequence(m => m.Guess(GameConstants.MinimumValue, playerValue))
+                .Setup(m => m.Guess(GameConstants.MinimumValue, playerValue))
                 .Returns(guessedValue);
             
+            _guessHelperMock.Setup(m => m.GetOutcome(playerValue, guessedValue))
+                .Returns(outcome);
+
             await new Application(_consoleHelperMock.Object, _guessHelperMock.Object, _playerInputHelperMock.Object)
                 .RunAsync(true, true);
-            
             
             _guessHelperMock.Verify(m => m.Guess(GameConstants.MinimumValue, playerValue), Times.Once);
             
@@ -84,14 +88,42 @@ namespace NumericLeapFrogConsole.Tests
 
             switch (outcome)
             {
-                case "high":
+                case GuessOutcomes.TooHigh:
                     _consoleHelperMock.Verify(m => m.WriteLine(string.Format(ComputerConstants.GuessTooHigh, guessedValue)), Times.Once);
                     break;
-                case "close":
+                case GuessOutcomes.IsClose:
                     _consoleHelperMock.Verify(m => m.WriteLine(string.Format(ComputerConstants.GuessIsClose, guessedValue)), Times.Once);
                     break;
             }
             
+            _consoleHelperMock.Verify(m => m.WriteLine(GameConstants.GameOverMessage), Times.Once);
+        }
+
+        [Theory]
+        [InlineData(50,  new int[] { 25, 50 }, new GuessOutcomes[] { GuessOutcomes.GuessAgain, GuessOutcomes.IsClose })]
+        public async Task Given_Application_When_RunAsync_Then_GuessesAgainWhenNumberLowAndNotTooHigh(int playerValue, int[] guessedValues, GuessOutcomes[] outcome)
+        {
+            _playerInputHelperMock
+                .Setup(m => m.GetPlayerValue())
+                .Returns(playerValue);
+            
+            _guessHelperMock
+                .SetupSequence(m => m.Guess(GameConstants.MinimumValue, playerValue))
+                .Returns(guessedValues[0])
+                .Returns(guessedValues[1]);
+            
+            _guessHelperMock
+                .SetupSequence(m => m.GetOutcome(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(outcome[0])
+                .Returns(outcome[1]);
+
+            await new Application(_consoleHelperMock.Object, _guessHelperMock.Object, _playerInputHelperMock.Object)
+                .RunAsync(true, true);
+            
+            _guessHelperMock.Verify(m => m.Guess(GameConstants.MinimumValue, playerValue), Times.Exactly(2));
+            
+            _consoleHelperMock.Verify(m => m.WriteLine(string.Format(ComputerConstants.GuessAgain, guessedValues[0])), Times.Once);
+            _consoleHelperMock.Verify(m => m.WriteLine(string.Format(ComputerConstants.GuessIsClose, guessedValues[1])), Times.Once);
             _consoleHelperMock.Verify(m => m.WriteLine(GameConstants.GameOverMessage), Times.Once);
         }
     }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Frozen;
+﻿using NumericLeapFrogConsole.Enumerations;
 
 namespace NumericLeapFrogConsole.Helpers
 {
@@ -17,6 +17,17 @@ namespace NumericLeapFrogConsole.Helpers
             _guesses.Add(guess);
 
             return _guesses.Sum();
+        }
+
+        public GuessOutcomes GetOutcome(int playerValue, int guess)
+        {
+            if (guess >= playerValue) 
+                return GuessOutcomes.TooHigh;
+            
+            if (playerValue - guess <= 3) 
+                return GuessOutcomes.IsClose;
+
+            return GuessOutcomes.GuessAgain;
         }
     }
 }

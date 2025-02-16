@@ -1,7 +1,9 @@
 ﻿using NumericLeapFrogConsole.Constants;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NumericLeapFrogConsole.Tests.Constants
 {
+    [ExcludeFromCodeCoverage(Justification = "Tests")]
     public class GameConstantsTests
     {
         [Theory]
