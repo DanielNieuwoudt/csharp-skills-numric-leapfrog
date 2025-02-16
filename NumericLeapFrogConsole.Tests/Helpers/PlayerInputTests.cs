@@ -8,9 +8,9 @@ namespace NumericLeapFrogConsole.Tests.Helpers
         private readonly Mock<IConsoleHelper> _consoleHelperMock = new();
 
         [Theory]
-        [InlineData(0, PlayerConstants.InvalidMinimumNumberMessage, null)]
+        [InlineData(0, GameConstants.InvalidMinimumNumberMessage, null)]
         [InlineData(50, null, 50)]
-        [InlineData(101, PlayerConstants.InvalidMaximumNumberMessage, null)]
+        [InlineData(101, GameConstants.InvalidMaximumNumberMessage, null)]
         [InlineData("exit", null, -1)]
         public void Given_GetPlayerValue_When_ValueProvided_Then_DisplaysInvalidValueMessage(object playerValue, string? message, int? expectedValue)
         {

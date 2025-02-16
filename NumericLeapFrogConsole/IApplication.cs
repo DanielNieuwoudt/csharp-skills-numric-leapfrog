@@ -2,5 +2,5 @@
 
 public interface IApplication
 {
-    Task RunAsync(bool runOnce = true);
+    Task RunAsync(bool isRunOnce = true, bool isGameMode = true);
 }

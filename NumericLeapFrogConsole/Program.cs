@@ -19,7 +19,7 @@ namespace NumericLeapfrog
 
                 })
                 .ConfigureSerilog()
-                .ConfigureServices((context, services) =>
+                .ConfigureServices(services =>
                 {
                     services.AddApplication();
                 })
@@ -29,7 +29,7 @@ namespace NumericLeapfrog
                 .Services
                 .GetRequiredService<IApplication>();
 
-            await application.RunAsync(runOnce: false);
+            await application.RunAsync(isRunOnce: false, isGameMode: true);
         }
     }
 }

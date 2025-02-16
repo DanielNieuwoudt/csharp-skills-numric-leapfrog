@@ -11,7 +11,7 @@ namespace NumericLeapFrogConsole.Extensions
         {
             services.AddTransient<IConsoleHelper, ConsoleHelper>();
             services.AddTransient<IPlayerInputHelper, PlayerInputHelper>();
-            
+            services.AddTransient<IGuessHelper, GuessHelper>();
             services.AddTransient<IApplication, Application>();
 
             return services;
